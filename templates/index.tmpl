@@ -132,21 +132,19 @@
 					<dt>
 						<a href="selectProductList">全部商品</a>
 					</dt>
-					{{range $i, $f := .flist}}
+					{{range .flist}}
 					    <dt>
-					        <a href="selectProductList?fid={{$f.Id}}">{{$f.Name}}</a>
+					        <a href="selectProductList?fid={{.Id}}">{{.Name}}</a>
 					    </dt>
-					    {{range $j, $c := .clist}}
-					        {{if eq $f.CategoryId $c.ParentId}}
-					            {{if ne .p.CategoryChildId $c.Id}}
-					                <dd>
-					                    <a href="selectProductList?cid={{$c.Id}}">{{$c.Name}}</a>
-					                </dd>
-					            {{end}}
-					        {{end}}
-					    {{end}}
+                        {{$fatherCid := .Id}}
+                        {{range $.clist}}
+                        {{if eq $fatherCid .ParentId}}
+                            <dd>
+                                <a href="selectProductList?cid={{.Id}}">{{.Name}}</a>
+                            </dd>
+                        {{end}}
+                        {{end}}
 					{{end}}
-
 				</dl>
 			</div>
 			<div class="spacer"></div>

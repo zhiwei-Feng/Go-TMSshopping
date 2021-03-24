@@ -40,7 +40,7 @@ func SelectProductsByHot() ([]domain.Product, error) {
 	sql := "select * from ( " +
 		"select tab1.* from  (  " +
 		"select * from EASYBUY_PRODUCT a,  " +
-		"(select ep_id eod_ep_id,sum(EOD_QUANTITY) buysum from EASYBUY_ORDER_DETAIL " +
+		"(select ep_id eod_ep_id,sum(EOD_QUANTITY) buysum from EASYBUY_ORDER_detail " +
 		"group by EP_id order by sum(EOD_QUANTITY) desc) b  " +
 		"where a.ep_id=b.eod_ep_id order by buysum desc  ) tab1) tab2 limit 0,8"
 
