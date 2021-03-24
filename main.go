@@ -42,7 +42,6 @@ func main() {
 	Logger().Infoln("Welcome to TMS shopping application")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/tms?charset=utf8&parseTime=True&loc=Local", *mysqlu, *mysqlp, *mysqlAddr)
-	//dsn := "root:feng1995@tcp(10.176.64.25:3306)/tms?charset=utf8&parseTime=True&loc=Local"
 	dbconn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("db conn fail.")
