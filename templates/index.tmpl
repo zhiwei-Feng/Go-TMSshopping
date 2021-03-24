@@ -213,20 +213,20 @@
 			<div class="hot">
 				<h2>热卖推荐</h2>
 				<ul class="product clearfix">
-					<c:forEach var="hotp" items="${hlist}">
+				    {{range .hlist}}
 						<li>
 							<dl>
 								<dt>
-									<a href="selectProductView?id=${hotp.EP_ID }" target="_blank"><img
-										src="images/product/${hotp.EP_FILE_NAME }" /></a>
+									<a href="selectProductView?id={{.Id}}" target="_blank"><img
+										src="images/product/{{.FileName }}" /></a>
 								</dt>
 								<dd class="title">
-									<a href="selectProductView?id=${hotp.EP_ID }" target="_blank">${hotp.EP_DESCRIPTION}</a>
+									<a href="selectProductView?id={{.Id}}" target="_blank">{{.Description}}</a>
 								</dd>
-								<dd class="price">${hotp.EP_PRICE }.00</dd>
+								<dd class="price">{{.Price}}.00</dd>
 							</dl>
 						</li>
-					</c:forEach>
+				    {{end}}
 				</ul>
 			</div>
 		</div>
