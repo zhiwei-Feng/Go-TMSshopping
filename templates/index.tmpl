@@ -151,15 +151,15 @@
 			<div class="last-view">
 				<h2>最近浏览</h2>
 				<dl class="clearfix">
-					<c:forEach var="lastp" items="${lastlylist}">
-						<dt>
-							<a href="selectProductView?id=${lastp.EP_ID }"><img
-								height="40" src="images/product/${lastp.EP_FILE_NAME }" /></a>
-						</dt>
-						<dd>
-							<a href="selectProductView?id=${lastp.EP_ID }">${lastp.EP_NAME }</a>
-						</dd>
-					</c:forEach>
+				    {{range .lastlylist}}
+				        <dt>
+				            <a href="selectProductView?id={{.Id }}"><img
+                        		height="40" src="images/product/{{.FileName }}" /></a>
+				        </dt>
+				        <dd>
+                        	<a href="selectProductView?id={{.Id}}">{{.Name}}</a>
+                        </dd>
+				    {{end}}
 				</dl>
 			</div>
 		</div>
@@ -170,10 +170,10 @@
 				<div id="scroll_div" class="scroll_div" style="width: 770px;">
 					<div id="scroll_begin">
 						<ul>
-							<c:forEach var="tp" items="${tlist}">
-								<li><a href="selectProductView?id=${tp.EP_ID }"><img
-										src="images/product/${tp.EP_FILE_NAME }" /></a></li>
-							</c:forEach>
+						    {{range .tlist}}
+                                <li><a href="selectProductView?id={{.Id}}"><img
+                                        src="images/product/{{.FileName }}" /></a></li>
+						    {{end}}
 						</ul>
 					</div>
 					<div id="scroll_end"></div>
