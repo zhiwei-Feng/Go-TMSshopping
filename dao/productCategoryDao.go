@@ -24,3 +24,13 @@ func SelectProductCateChild() ([]domain.ProductCategory, error) {
 
 	return childs, nil
 }
+
+func SelectProductCateById(id int) (domain.ProductCategory, error) {
+	var target domain.ProductCategory
+	result := db.DB.First(&target, id)
+	if result.Error != nil {
+		return target, result.Error
+	}
+
+	return target, nil
+}

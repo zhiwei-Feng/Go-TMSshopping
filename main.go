@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"html/template"
 	"net/http"
 	"os"
 	"tmsshopping/controller"
@@ -28,6 +29,10 @@ func Logger() *logrus.Logger {
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
 	return logger
+}
+
+func add(x, y int) int {
+	return x + y
 }
 
 func main() {
@@ -62,6 +67,8 @@ func main() {
 	router := gin.Default()
 	router.Use(gin.Recovery())
 	router.Use(sessions.Sessions("mySession", store))
+	// 定义一些模板函数
+	router.SetFuncMap(template.FuncMap{"add": add})
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/css", "./static/css")
 	router.Static("/images", "./static/images")
@@ -71,5 +78,6 @@ func main() {
 	})
 	router.GET("/indexSelect", controller.IndexSelect)
 	router.GET("/product-view", controller.SelectProductView)
+	router.GET("/selectProductList", controller.SelectProductList)
 	_ = endless.ListenAndServe(":8080", router)
 }
