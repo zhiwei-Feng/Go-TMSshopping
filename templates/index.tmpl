@@ -86,21 +86,22 @@
 <body>
 	<div id="header" class="wrap">
 		<div class="help">
-			<c:if test="${name!=null}">
-				<a href="selectdd?dd=${name.EU_USER_ID }">个人订单</a>
-			</c:if>
-			<c:if test="${name!=null}">当前用户${name.EU_USER_ID }</c:if>
-			<a href="ShopSelect" class="shopping">购物车</a>
-			<c:if test="${name==null}">
-				<a href="login.jsp">登录</a>|<a href="register.jsp">注册</a>
-			</c:if>
-			<c:if test="${name!=null}">
-				<a href="zx">退出</a>
-			</c:if>
-			<a href="SelallServlet">留言</a>
-			<c:if test="${name.EU_STATUS==2}">
-				<a href="manage/index.jsp">去后台</a>
-			</c:if>
+		    {{if .name}}
+		        <a href="selectdd?dd={{.name.Id}}">个人订单</a>
+		        当前用户{{.name.Id}}
+		    {{end}}
+		        <a href="ShopSelect" class="shopping">购物车</a>
+		    {{if .name}}
+		        <a href="zx">退出</a>
+		    {{else}}
+		        <a href="login.jsp">登录</a>|<a href="register.jsp">注册</a>
+		    {{end}}
+		        <a href="SelallServlet">留言</a>
+		    {{if .name}}
+		    {{if eq .name.Status 2}}
+		        <a href="manage/index.jsp">去后台</a>
+		    {{end}}
+		    {{end}}
 		</div>
 		<a href="indexSelect"><button>首页</button></a>
 	</div>

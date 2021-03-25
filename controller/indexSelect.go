@@ -26,6 +26,7 @@ func IndexSelect(ctx *gin.Context) {
 	attributes["tlist"] = tlist
 	attributes["hlist"] = hlist
 	attributes["search_words"] = session.Get("search_words")
+	attributes["name"] = session.Get("name")
 
 	ctx.HTML(http.StatusOK, "index.tmpl", attributes)
 }
