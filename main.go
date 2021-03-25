@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"github.com/fvbock/endless"
 	"github.com/gin-contrib/sessions"
@@ -32,16 +31,23 @@ func Logger() *logrus.Logger {
 }
 
 func main() {
-	mysqlu := flag.String("mysqlu", "root", "mysql user")
-	mysqlp := flag.String("mysqlp", "root", "mysql password")
-	mysqlAddr := flag.String("server", "127.0.0.1", "mysql server address")
-
-	flag.Parse()
+	mysqlu, exist := os.LookupEnv("MYSQLU")
+	if !exist {
+		mysqlu = "root"
+	}
+	mysqlp, exist := os.LookupEnv("MYSQLP")
+	if !exist {
+		mysqlp = "root"
+	}
+	mysqlAddr, exist := os.LookupEnv("MYSQL_ADDR")
+	if !exist {
+		mysqlAddr = "127.0.0.1"
+	}
 
 	// +--------------+ site config
 	Logger().Infoln("Welcome to TMS shopping application")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/tms?charset=utf8&parseTime=True&loc=Local", *mysqlu, *mysqlp, *mysqlAddr)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/tms?charset=utf8&parseTime=True&loc=Local", mysqlu, mysqlp, mysqlAddr)
 	dbconn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("db conn fail.")
