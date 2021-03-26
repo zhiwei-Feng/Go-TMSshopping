@@ -77,7 +77,7 @@ func main() {
 		context.HTML(http.StatusOK, "index.tmpl", gin.H{})
 	})
 	router.GET("/indexSelect", controller.IndexSelect)
-	router.GET("/product-view", controller.SelectProductView)
 	router.GET("/selectProductList", controller.SelectProductList)
-	_ = endless.ListenAndServe(":8080", router)
+	router.GET("/selectProductView", controller.SelectProductView)
+	_ = endless.ListenAndServe(":8888", router)
 }

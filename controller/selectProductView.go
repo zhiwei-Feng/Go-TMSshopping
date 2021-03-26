@@ -24,9 +24,8 @@ func SelectProductView(ctx *gin.Context) {
 
 	if idConvert, err := strconv.Atoi(id); err == nil {
 		ids = append(ids, idConvert)
-		if p, err := dao.SelectProductById(idConvert); err == nil {
-			attributes["p"] = p
-		}
+		p, _ := dao.SelectProductById(idConvert)
+		attributes["p"] = p
 	}
 	lastlyList, _ := dao.SelectProductsByIds(ids)
 	session.Set("ids", ids)
