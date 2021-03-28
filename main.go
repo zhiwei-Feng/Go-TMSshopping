@@ -69,15 +69,21 @@ func main() {
 	router.Use(sessions.Sessions("mySession", store))
 	// 定义一些模板函数
 	router.SetFuncMap(template.FuncMap{"add": add})
-	router.LoadHTMLGlob("templates/*")
+	router.LoadHTMLGlob("templates/**/*")
 	router.Static("/css", "./static/css")
 	router.Static("/images", "./static/images")
 	router.Static("/scripts", "./static/scripts")
+	// +--------------+ 静态页面渲染
 	router.GET("/index", func(context *gin.Context) {
 		context.HTML(http.StatusOK, "index.tmpl", gin.H{})
 	})
+	router.GET("/loginPage", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "login.tmpl", gin.H{})
+	})
+	// +--------------+ http请求
 	router.GET("/indexSelect", controller.IndexSelect)
 	router.GET("/selectProductList", controller.SelectProductList)
 	router.GET("/selectProductView", controller.SelectProductView)
+	router.POST("/login", controller.Login)
 	_ = endless.ListenAndServe(":8888", router)
 }
