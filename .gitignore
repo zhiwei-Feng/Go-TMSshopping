@@ -15,4 +15,4 @@
 # vendor/
 .idea
 tmp
-.air.toml
+#.air.toml
