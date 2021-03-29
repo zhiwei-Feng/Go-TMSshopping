@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	ginsession "github.com/go-session/gin-session"
 	"net/http"
 	"strconv"
 	"tmsshopping/dao"
@@ -13,9 +13,10 @@ func SelectProductList(ctx *gin.Context) {
 	attributes := gin.H{}
 	flist, _ := dao.SelectProductCateFather() //所有商品分类
 	clist, _ := dao.SelectProductCateChild()  //所有子类别
-	session := sessions.Default(ctx)
-	ids, ok := session.Get("ids").([]int)
-	if ok && ids != nil {
+	session := ginsession.FromContext(ctx)
+	idsStr, ok := session.Get("ids")
+	if ok {
+		ids := idsStr.([]int)
 		lastlylist, _ := dao.SelectProductsByIds(ids)
 		attributes["lastlylist"] = lastlylist
 	}
@@ -80,6 +81,9 @@ func SelectProductList(ctx *gin.Context) {
 	attributes["search_words"] = name
 	attributes["selected_fid"] = fid
 	attributes["selectList"] = selectList
+
+	user, _ := session.Get("name")
+	attributes["name"] = user
 
 	ctx.HTML(http.StatusOK, "product-list.tmpl", attributes)
 }

@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/fvbock/endless"
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	ginsession "github.com/go-session/gin-session"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -61,15 +60,16 @@ func main() {
 		db.DB = dbconn
 	}
 
-	store := cookie.NewStore([]byte("secret"))
-
 	// +--------------+ gin
 	router := gin.Default()
 	router.Use(gin.Recovery())
-	router.Use(sessions.Sessions("mySession", store))
+	// gin-contrib/sessions就是不好使, 所以只能用第三方库go-session/gin-session
+	router.Use(ginsession.New())
 	// 定义一些模板函数
 	router.SetFuncMap(template.FuncMap{"add": add})
+	// 加载模板及html文件，注意这种写法下，templates根目录的模板无法加载
 	router.LoadHTMLGlob("templates/**/*")
+	// 加载静态文件
 	router.Static("/css", "./static/css")
 	router.Static("/images", "./static/images")
 	router.Static("/scripts", "./static/scripts")
