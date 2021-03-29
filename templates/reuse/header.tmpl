@@ -1,0 +1,25 @@
+{{define "header"}}
+
+	<div id="header" class="wrap">
+		<div class="help">
+		    {{if .}}
+		        <a href="selectdd?dd={{.Id}}">个人订单</a>
+		        当前用户{{.Id}}
+		    {{end}}
+		        <a href="ShopSelect" class="shopping">购物车</a>
+		    {{if .}}
+		        <a href="zx">退出</a>
+		    {{else}}
+		        <a href="loginPage">登录</a>|<a href="register.jsp">注册</a>
+		    {{end}}
+		        <a href="SelallServlet">留言</a>
+		    {{if .}}
+		    {{if eq .Status 2}}
+		        <a href="manage/index.jsp">去后台</a>
+		    {{end}}
+		    {{end}}
+		</div>
+		<a href="indexSelect"><button>首页</button></a>
+	</div>
+
+{{end}}
