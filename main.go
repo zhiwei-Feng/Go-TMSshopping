@@ -86,5 +86,6 @@ func main() {
 	router.GET("/selectProductView", controller.SelectProductView)
 	router.POST("/login", controller.Login)
 	router.GET("/zx", controller.Logout)
+	router.GET("/SelallServlet", controller.MessageBoard)
 	_ = endless.ListenAndServe(":8888", router)
 }
