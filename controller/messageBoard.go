@@ -2,10 +2,11 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
+	"time"
 	"tmsshopping/dao"
+	"tmsshopping/db"
 	"tmsshopping/domain"
 )
 
@@ -26,13 +27,11 @@ func MessageBoard(ctx *gin.Context) {
 		list       []domain.Comment
 	)
 	spage = ctx.Query("page")
-	logrus.Info("get page:", spage)
 	if spage != "" {
 		if v, err := strconv.Atoi(spage); err == nil {
 			page = v
 		}
 	}
-	logrus.Info("current page:", page)
 
 	flist, _ = dao.SelectProductCateFather()            //所有商品分类
 	clist, _ = dao.SelectProductCateChild()             //所有子类别
@@ -53,4 +52,25 @@ func MessageBoard(ctx *gin.Context) {
 	attributes["pageList"] = pageList
 
 	ctx.HTML(http.StatusOK, "guestbook.tmpl", attributes)
+}
+
+// 对应GueServlet, post method
+func PostComment(ctx *gin.Context) {
+	ctx.Header("Content-Type", "text/html; charset=utf-8")
+	var (
+		newComment domain.Comment
+	)
+
+	if err := ctx.ShouldBind(&newComment); err != nil {
+		ctx.HTML(http.StatusOK, "comment_add_err.html", gin.H{})
+		return
+	}
+	newComment.CreateTime = time.Now()
+	result := db.DB.Select("EC_CONTENT", "EC_NICK_NAME", "EC_CREATE_TIME").Create(&newComment)
+	if result.Error != nil {
+		ctx.HTML(http.StatusOK, "comment_add_err.html", gin.H{})
+		return
+	}
+
+	ctx.Redirect(http.StatusFound, "/SelallServlet")
 }

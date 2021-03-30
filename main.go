@@ -83,8 +83,10 @@ func main() {
 	router.GET("/indexSelect", controller.IndexSelect)
 	router.GET("/selectProductList", controller.SelectProductList)
 	router.GET("/selectProductView", controller.SelectProductView)
-	router.POST("/login", controller.Login)
 	router.GET("/zx", controller.Logout)
 	router.GET("/SelallServlet", controller.MessageBoard)
+	router.POST("/login", controller.Login)
+	router.POST("/GueServlet", controller.PostComment)
+
 	_ = endless.ListenAndServe(":8888", router)
 }

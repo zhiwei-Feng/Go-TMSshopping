@@ -5,7 +5,6 @@
 <title>商城-首页</title>
 <link type="text/css" rel="stylesheet" href="css/style.css" />
 <script type="text/javascript" src="scripts/function.js"></script>
-<script type="text/javascript" charset="utf-8" src="kindeditor.js"></script>
 <script type="text/javascript">
 	function selectname() {
 		var name = document.getElementById("selectname").value;
@@ -77,7 +76,7 @@
 				                <dt>{{.Content}}</dt>
 				                <dd class="author">
 				                    网友: {{.NickName}}
-				                    <span class="timer">{{.CreateTime}}</span>
+				                    <span class="timer">{{.CreateTime.Format "2006-01-02" }}</span>
 				                </dd>
 				                <dd>
 				                    {{if .Reply}}
