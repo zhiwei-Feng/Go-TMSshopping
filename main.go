@@ -74,13 +74,12 @@ func main() {
 	router.Static("/images", "./static/images")
 	router.Static("/scripts", "./static/scripts")
 	// +--------------+ 静态页面渲染
-	router.GET("/index", func(context *gin.Context) {
-		context.HTML(http.StatusOK, "index.tmpl", gin.H{})
-	})
 	router.GET("/loginPage", func(context *gin.Context) {
 		context.HTML(http.StatusOK, "login.tmpl", gin.H{})
 	})
 	// +--------------+ http请求
+	router.GET("/", controller.IndexSelect)
+	router.GET("/index", controller.IndexSelect)
 	router.GET("/indexSelect", controller.IndexSelect)
 	router.GET("/selectProductList", controller.SelectProductList)
 	router.GET("/selectProductView", controller.SelectProductView)
