@@ -26,3 +26,13 @@ func SelectUserByNM(name, pwd string) (domain.User, error) {
 
 	return target, nil
 }
+
+func SelectUserByName(name string) (domain.User, error) {
+	var target domain.User
+	result := db.DB.First(&target, "EU_USER_ID = ?", name)
+	if result.Error != nil {
+		return target, result.Error
+	}
+
+	return target, nil
+}

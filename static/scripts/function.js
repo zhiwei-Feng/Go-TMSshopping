@@ -45,13 +45,13 @@ function CheckItem(obj)
 				return false;
 			}
 			break;
-		case "veryCode":
-			if(obj.value == "") {
-				msgBox.innerHTML = "验证码不能为空";
-				msgBox.className = "error";
-				return false;
-			}
-			break;
+		// case "veryCode":
+		// 	if(obj.value == "") {
+		// 		msgBox.innerHTML = "验证码不能为空";
+		// 		msgBox.className = "error";
+		// 		return false;
+		// 	}
+		// 	break;
 	}
 	return true;
 }

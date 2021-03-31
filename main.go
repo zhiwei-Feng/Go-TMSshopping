@@ -77,6 +77,9 @@ func main() {
 	router.GET("/loginPage", func(context *gin.Context) {
 		context.HTML(http.StatusOK, "login.tmpl", gin.H{})
 	})
+	router.GET("/registerPage", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "register.tmpl", gin.H{})
+	})
 	// +--------------+ http请求
 	router.GET("/", controller.IndexSelect)
 	router.GET("/index", controller.IndexSelect)
@@ -85,6 +88,7 @@ func main() {
 	router.GET("/selectProductView", controller.SelectProductView)
 	router.GET("/zx", controller.Logout)
 	router.GET("/SelallServlet", controller.MessageBoard)
+	router.GET("/usernamecheck", controller.UsernameCheck)
 	router.POST("/login", controller.Login)
 	router.POST("/GueServlet", controller.PostComment)
 
