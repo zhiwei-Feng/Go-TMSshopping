@@ -91,6 +91,7 @@ func main() {
 	router.GET("/usernamecheck", controller.UsernameCheck)
 	router.POST("/login", controller.Login)
 	router.POST("/GueServlet", controller.PostComment)
+	router.POST("/register", controller.Register)
 
 	_ = endless.ListenAndServe(":8888", router)
 }
