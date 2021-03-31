@@ -46,6 +46,6 @@ func Register(ctx *gin.Context) {
 	if result.Error != nil {
 		ctx.HTML(http.StatusOK, "register_err.html", gin.H{})
 	} else {
-		ctx.Redirect(http.StatusFound, "reg-result.jsp")
+		ctx.Redirect(http.StatusFound, "/registerResultPage")
 	}
 }

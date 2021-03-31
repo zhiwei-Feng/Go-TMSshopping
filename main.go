@@ -80,6 +80,9 @@ func main() {
 	router.GET("/registerPage", func(context *gin.Context) {
 		context.HTML(http.StatusOK, "register.tmpl", gin.H{})
 	})
+	router.GET("/registerResultPage", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "reg-result.tmpl", gin.H{})
+	})
 	// +--------------+ http请求
 	router.GET("/", controller.IndexSelect)
 	router.GET("/index", controller.IndexSelect)
