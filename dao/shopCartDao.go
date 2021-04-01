@@ -17,3 +17,22 @@ func GetShopCartOfUser(username string) ([]domain.ShopCart, error) {
 
 	return shopList, nil
 }
+
+func AddToShopCart(prod domain.Product, count int, username string) (int, error) {
+	newShopCartItem := domain.ShopCart{
+		ProductFileName: prod.FileName,
+		ProductName:     prod.Name,
+		ProductPrice:    prod.Price,
+		Quantity:        count,
+		Stock:           prod.Stock,
+		ProductId:       prod.Id,
+		UserId:          username,
+		Valid:           1, // 硬编码, 不知道为啥
+	}
+	result := db.DB.Create(&newShopCartItem)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return int(result.RowsAffected), nil
+}

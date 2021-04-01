@@ -98,6 +98,7 @@ func main() {
 	router.GET("/SelallServlet", controller.MessageBoard)
 	router.GET("/usernamecheck", controller.UsernameCheck)
 	router.GET("/ShopSelect", shopController.ShopSelect)
+	router.GET("/shopAdd", shopController.ShopBuy)
 	router.POST("/login", controller.Login)
 	router.POST("/GueServlet", controller.PostComment)
 	router.POST("/register", controller.Register)
