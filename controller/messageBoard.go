@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	ginsession "github.com/go-session/gin-session"
 	"net/http"
 	"strconv"
 	"time"
@@ -37,6 +38,10 @@ func MessageBoard(ctx *gin.Context) {
 	clist, _ = dao.SelectProductCateChild()             //所有子类别
 	list, _ = dao.CommentPage(page, pagesize)           //当前页的评论
 	maxPage, _ = dao.MaxCommentPageNum(int64(pagesize)) //评论最大页数
+	sess := ginsession.FromContext(ctx)
+	if name, ok := sess.Get("name"); ok {
+		attributes["name"] = name // 登录用户状态载入
+	}
 
 	// 用于页面遍历
 	pageList := make([]int, maxPage)

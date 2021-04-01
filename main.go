@@ -47,11 +47,15 @@ func main() {
 	if !exist {
 		mysqlAddr = "127.0.0.1"
 	}
+	database, exist := os.LookupEnv("DB")
+	if !exist {
+		database = "fzw"
+	}
 
 	// +--------------+ site config
 	Logger().Infoln("Welcome to TMS shopping application")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/tms?charset=utf8&parseTime=True&loc=Local", mysqlu, mysqlp, mysqlAddr)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=True&loc=Local", mysqlu, mysqlp, mysqlAddr, database)
 	dbconn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("db conn fail.")
