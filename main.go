@@ -91,17 +91,18 @@ func main() {
 	// +--------------+ http请求
 	router.GET("/", controller.IndexSelect)
 	router.GET("/index", controller.IndexSelect)
-	router.GET("/indexSelect", controller.IndexSelect)
-	router.GET("/selectProductList", controller.SelectProductList)
-	router.GET("/selectProductView", controller.SelectProductView)
-	router.GET("/zx", controller.Logout)
-	router.GET("/SelallServlet", controller.MessageBoard)
-	router.GET("/usernamecheck", controller.UsernameCheck)
-	router.GET("/ShopSelect", shopController.ShopSelect)
-	router.GET("/shopAdd", shopController.ShopBuy)
-	router.POST("/login", controller.Login)
-	router.POST("/GueServlet", controller.PostComment)
-	router.POST("/register", controller.Register)
+	router.GET("/indexSelect", controller.IndexSelect)             //首页
+	router.GET("/selectProductList", controller.SelectProductList) // 商品列表
+	router.GET("/selectProductView", controller.SelectProductView) // 商品详情页
+	router.GET("/zx", controller.Logout)                           // 用户登出
+	router.GET("/SelallServlet", controller.MessageBoard)          // 留言
+	router.GET("/usernamecheck", controller.UsernameCheck)         // 注册用户时验证用户名
+	router.GET("/ShopSelect", shopController.ShopSelect)           // 购物车
+	router.GET("/shopAdd", shopController.ShopBuy)                 // 购买商品按钮
+	router.GET("/shopAdd2", shopController.ShopAdd)                // 放入购物车
+	router.POST("/login", controller.Login)                        // 登录
+	router.POST("/GueServlet", controller.PostComment)             // 提交留言
+	router.POST("/register", controller.Register)                  // 注册
 
 	_ = endless.ListenAndServe(":8888", router)
 }
