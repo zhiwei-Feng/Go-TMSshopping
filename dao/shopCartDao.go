@@ -68,3 +68,12 @@ func SetItem(id, num int) (int, error) {
 
 	return int(result.RowsAffected), nil
 }
+
+func DeleteItem(id int) (int, error) {
+	result := db.DB.Delete(&domain.ShopCart{}, id)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return int(result.RowsAffected), nil
+}

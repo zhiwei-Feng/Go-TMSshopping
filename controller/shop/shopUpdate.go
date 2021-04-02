@@ -39,6 +39,7 @@ func ShopUpdate(ctx *gin.Context) {
 		}
 		_, _ = dao.SetItem(pid, value)
 	case "delText":
+		_, _ = dao.DeleteItem(pid)
 	}
 
 	ctx.Redirect(http.StatusFound, "/ShopSelect")
