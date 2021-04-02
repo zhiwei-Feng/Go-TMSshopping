@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"gorm.io/gorm"
 	"tmsshopping/db"
 	"tmsshopping/domain"
 )
@@ -30,6 +31,17 @@ func AddToShopCart(prod domain.Product, count int, username string) (int, error)
 		Valid:           1, // 硬编码, 不知道为啥
 	}
 	result := db.DB.Create(&newShopCartItem)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return int(result.RowsAffected), nil
+}
+
+// 购物车购买数量+1
+func PlusItem(id int) (int, error) {
+	var item = domain.ShopCart{Id: id}
+	result := db.DB.Model(&item).UpdateColumn("es_eod_quantity", gorm.Expr("es_eod_quantity + ?", 1))
 	if result.Error != nil {
 		return 0, result.Error
 	}

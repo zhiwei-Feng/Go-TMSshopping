@@ -6,7 +6,7 @@ type ShopCart struct {
 	ProductFileName string  `gorm:"column:es_ep_file_name"`
 	ProductName     string  `gorm:"column:es_ep_name"`
 	ProductPrice    float32 `gorm:"column:es_ep_price"`
-	Quantity        int     `gorm:"column:es_eod_quantity"`
+	Quantity        int     `gorm:"column:es_eod_quantity"` // 购买数量
 	Stock           int     `gorm:"column:es_ep_stock"`
 	ProductId       int     `gorm:"column:es_ep_id"`
 	UserId          string  `gorm:"column:es_eu_user_id"`

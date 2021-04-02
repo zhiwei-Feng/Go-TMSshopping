@@ -101,6 +101,7 @@ func main() {
 	router.GET("/shopAdd", shopController.ShopBuy)                 // 购买商品按钮
 	router.GET("/shopAdd2", shopController.ShopAdd)                // 放入购物车
 	router.GET("/selectdd", controller.SelectOrder)                // 个人订单
+	router.GET("/UpdateServlet", shopController.ShopUpdate)        // 购物车购买数量更新
 	router.POST("/login", controller.Login)                        // 登录
 	router.POST("/GueServlet", controller.PostComment)             // 提交留言
 	router.POST("/register", controller.Register)                  // 注册
