@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商城-首页</title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<script type="text/javascript" src="scripts/function.js"></script>
+
+<script language="javascript">
+	function ScrollImgLeft() {
+		var speed = 20
+		var scroll_begin = document.getElementById("scroll_begin");
+		var scroll_end = document.getElementById("scroll_end");
+		var scroll_div = document.getElementById("scroll_div");
+		scroll_end.innerHTML = scroll_begin.innerHTML
+		function Marquee() {
+			if (scroll_end.offsetWidth - scroll_div.scrollLeft <= 0)
+				scroll_div.scrollLeft -= scroll_begin.offsetWidth
+			else
+				scroll_div.scrollLeft++
+		}
+		var MyMar = setInterval(Marquee, speed)
+		scroll_div.onmouseover = function() {
+			clearInterval(MyMar)
+		}
+		scroll_div.onmouseout = function() {
+			MyMar = setInterval(Marquee, speed)
+		}
+	}
+	function selectname() {
+		var name = document.getElementById("selectname").value;
+		location.href = 'selectProductList?name=' + name;
+	}
+	function searchHot(name) {
+		location.href = 'selectProductList?name=' + name;
+	}
+</script>
+
+
+</head>
+<body>
+	{{template "header" .name}}
+	<div id="childNav">
+		<div class="wrap">
+			<ul class="clearfix">
+			<li><a>热门搜索</a></li>
+				<li class="first"><a href="javascript:searchHot('瓜子')">瓜子</a></li>
+				<li><a href="javascript:searchHot('辣条')">辣条</a></li>
+				<li><a href="javascript:searchHot('凤爪')">凤爪</a></li>
+				<li><a href="javascript:searchHot('泡面')">泡面</a></li>
+				<li><a href="javascript:searchHot('巧克力')">巧克力</a></li>
+				<li><a href="javascript:searchHot('葡萄干')">葡萄干</a></li>
+				<li><a href="javascript:searchHot('薯片')">薯片</a></li>
+				<li><a href="javascript:searchHot('糖果')">糖果</a></li>
+				<li><a href="javascript:searchHot('肉脯')">肉脯</a></li>
+				<li><a href="javascript:searchHot('牛奶')">牛奶</a></li>
+				<li><a href="javascript:searchHot('特产')">特产</a></li>
+				<li class="last"><input type="text" id="selectname" /><a
+					href="javascript:selectname()">搜索</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="main" class="wrap">
+		<div class="lefter">
+			<div class="box">
+				<h2>商品分类</h2>
+				<dl>
+					<dt>
+						<a href="selectProductList">全部商品</a>
+					</dt>
+					{{range .flist}}
+					    <dt>
+					        <a href="selectProductList?fid={{.Id}}">{{.Name}}</a>
+					    </dt>
+                        {{$fatherCid := .Id}}
+                        {{range $.clist}}
+                        {{if eq $fatherCid .ParentId}}
+                            <dd>
+                                <a href="selectProductList?cid={{.Id}}">{{.Name}}</a>
+                            </dd>
+                        {{end}}
+                        {{end}}
+					{{end}}
+				</dl>
+			</div>
+			<div class="spacer"></div>
+			<div class="last-view">
+				<h2>最近浏览</h2>
+				<dl class="clearfix">
+				    {{range .lastlylist}}
+				        <dt>
+				            <a href="selectProductView?id={{.Id }}"><img
+                        		height="40" src="images/product/{{.FileName }}" /></a>
+				        </dt>
+				        <dd>
+                        	<a href="selectProductView?id={{.Id}}">{{.Name}}</a>
+                        </dd>
+				    {{end}}
+				</dl>
+			</div>
+		</div>
+
+		<div class="main">
+			<div class="price-off">
+				<h2>个人订单</h2>
+				    {{if .dan}}
+                        <table border="1" width="600px" height="100px" bordercolor="red">
+                            <tr align="center">
+                                <td class="field">订单号</td>
+                                <td class="field">用户ID</td>
+                                <td class="field">商品名称</td>
+                                <td class="field">商品图片</td>
+                                <td class="field">商品价格</td>
+                                <td class="field">购买数量</td>
+                                <td class="field">商品库存</td>
+                            </tr>
+                            {{range .dan}}
+                                <tr align="center">
+                                    <td>${d.EO_ID }</td>
+                                    <td>${d.EO_USER_ID }</td>
+                                    <td>${d.EP_NAME }</td>
+                                    <td><img src="images/product/${d.EP_FILE_NAME }"
+                                        height="100" width="100" /></td>
+                                    <td>${d.EP_PRICE }</td>
+                                    <td>${d.EOD_QUANTITY }</td>
+                                    <td>${d.EP_STOCK }</td>
+                                </tr>
+                            {{end}}
+                        </table>
+				    {{else}}
+				        <a href="indexSelect">快去购买吧</a>
+				    {{end}}
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
+
+
