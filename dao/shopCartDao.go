@@ -48,3 +48,23 @@ func PlusItem(id int) (int, error) {
 
 	return int(result.RowsAffected), nil
 }
+
+func ReduceItem(id int) (int, error) {
+	var item = domain.ShopCart{Id: id}
+	result := db.DB.Model(&item).UpdateColumn("es_eod_quantity", gorm.Expr("es_eod_quantity - ?", 1))
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return int(result.RowsAffected), nil
+}
+
+func SetItem(id, num int) (int, error) {
+	var item = domain.ShopCart{Id: id}
+	result := db.DB.Model(&item).Update("es_eod_quantity", num)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return int(result.RowsAffected), nil
+}
