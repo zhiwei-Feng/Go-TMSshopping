@@ -116,14 +116,14 @@
                             </tr>
                             {{range .dan}}
                                 <tr align="center">
-                                    <td>${d.EO_ID }</td>
-                                    <td>${d.EO_USER_ID }</td>
-                                    <td>${d.EP_NAME }</td>
-                                    <td><img src="images/product/${d.EP_FILE_NAME }"
+                                    <td>{{.Id}}</td>
+                                    <td>{{.UserId}}</td>
+                                    <td>{{.ProdName}}</td>
+                                    <td><img src="images/product/{{.ProdFileName}}"
                                         height="100" width="100" /></td>
-                                    <td>${d.EP_PRICE }</td>
-                                    <td>${d.EOD_QUANTITY }</td>
-                                    <td>${d.EP_STOCK }</td>
+                                    <td>{{.ProdPrice}}</td>
+                                    <td>{{.Quantity}}</td>
+                                    <td>{{.ProdStock}}</td>
                                 </tr>
                             {{end}}
                         </table>
