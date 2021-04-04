@@ -2,6 +2,7 @@ package dao
 
 import (
 	"gorm.io/gorm"
+	"time"
 	"tmsshopping/db"
 	"tmsshopping/domain"
 )
@@ -77,3 +78,61 @@ func DeleteItem(id int) (int, error) {
 
 	return int(result.RowsAffected), nil
 }
+
+// ============= 结算相关dao方法 =============
+// 结算时更新产品库存, 涉及到事务需要传入对应的事务*gorm.DB
+func UpdateStock(id, stock int, DBCon *gorm.DB) (int, error) {
+	var prod = domain.Product{Id: id}
+	result := DBCon.Model(&prod).UpdateColumn("EP_STOCK", gorm.Expr("EP_STOCK - ?", stock))
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return int(result.RowsAffected), nil
+}
+
+func CreateOrder(id, name, address string, price int, DBCon *gorm.DB) (int, error) {
+	newOrder := domain.Order{
+		UserId:      id,
+		Username:    name,
+		UserAddress: address,
+		CreateTime:  time.Now(),
+		Cost:        float32(price),
+		Status:      1, // hard code
+		Type:        1, // hard code
+	}
+	result := DBCon.Create(&newOrder)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return newOrder.Id, nil
+}
+
+func GenerateOrderDetail(orderId, prodId, quan, cost int, DBCon *gorm.DB) (int, error) {
+	detail := domain.OrderDetail{
+		OrderId:   orderId,
+		ProductId: prodId,
+		Quantity:  quan,
+		Cost:      float32(cost),
+	}
+	result := DBCon.Create(&detail)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return detail.Id, nil
+}
+
+// 结算时，更新购物车条目状态
+func SettleItem(id int, DBCon *gorm.DB) (int, error) {
+	var item = domain.ShopCart{Id: id}
+	result := DBCon.Model(&item).Update("Valid", 2)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return int(result.RowsAffected), nil
+}
+
+// =============================================================
