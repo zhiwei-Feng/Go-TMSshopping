@@ -12,6 +12,7 @@ import (
 	"tmsshopping/domain"
 )
 
+// todo: 前端传参存在bug，会导致只勾选了其中某些商品的时候，却对整个购物车都进行了结算
 func ShopCartSettle(ctx *gin.Context) {
 	ctx.Header("Content-Type", "text/html;charset=utf-8")
 	var (
