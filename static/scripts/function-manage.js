@@ -39,7 +39,7 @@ function check(name){
 	}else if(window.ActiveXObject){
 		ajax=new ActiveXObject();
 		}
-	var url="checkName?name="+encodeURI(name)+"&"+new Date().getTime();
+	var url="/usernamecheck?name="+encodeURI(name)+"&"+new Date().getTime();
 	ajax.open("get",url,true);
 	ajax.send();
 	ajax.onreadystatechange=check2;

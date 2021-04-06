@@ -112,6 +112,7 @@ func main() {
 	m := router.Group("/manage")
 	m.GET("/index", manage.Index)
 	m.GET("/userAddPage", manage.UserAddPage)
+	m.GET("/useradd", manage.UserAdd)
 
 	_ = endless.ListenAndServe(":8888", router)
 }
