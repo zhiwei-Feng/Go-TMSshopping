@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"tmsshopping/controller"
+	"tmsshopping/controller/manage"
 	"tmsshopping/controller/shop"
 	"tmsshopping/db"
 )
@@ -106,6 +107,10 @@ func main() {
 	router.POST("/login", controller.Login)                        // 登录
 	router.POST("/GueServlet", controller.PostComment)             // 提交留言
 	router.POST("/register", controller.Register)                  // 注册
+
+	// +--------------+ manage part
+	m := router.Group("/manage")
+	m.GET("/index", manage.Index)
 
 	_ = endless.ListenAndServe(":8888", router)
 }

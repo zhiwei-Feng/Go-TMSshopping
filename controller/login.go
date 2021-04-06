@@ -27,7 +27,7 @@ func Login(ctx *gin.Context) {
 			session.Set("name", user)
 			session.Save()
 			if user.Status == 2 {
-				ctx.Redirect(http.StatusMovedPermanently, "manage/indexPage")
+				ctx.Redirect(http.StatusMovedPermanently, "manage/index")
 			} else {
 				ctx.Redirect(http.StatusMovedPermanently, "indexSelect")
 			}
