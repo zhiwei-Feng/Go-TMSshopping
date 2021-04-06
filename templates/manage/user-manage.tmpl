@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理-商城</title>
+<link type="text/css" rel="stylesheet" href="../css/style.css" />
+<script type="text/javascript" src="../scripts/function-manage.js"></script>
+</head>
+<body>
+	<div id="header" class="wrap">
+		<div class="help">
+			<a href="/indexSelect"><button>返回前台页面</button></a>
+		</div>
+		<a href="/indexSelect"><button>首页</button></a>
+	</div>
+	<div id="childNav">
+		<div class="welcome wrap">欢迎回到管理后台。</div>
+	</div>
+	<div id="position" class="wrap">
+		您现在的位置：<a href="/indexSelect">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box" }}
+		</div>
+		<div class="main">
+			<h2>用户管理</h2>
+			<div class="manage">
+				<table class="list">
+					<tr>
+						<th>ID</th>
+						<th>用户类型</th>
+						<th>性别</th>
+						<th>Email</th>
+						<th>手机</th>
+						<th>操作</th>
+					</tr>
+					{{range .userlist}}
+					<tr>
+					    <td class="first w4 c">{{.Id}}</td>
+					    <td class="w1 c">{{.UserName}}</td>
+					    <td class="w2 c">{{.Sex}}</td>
+					    <td>{{.Email}}</td>
+					    <td class="w4 c">{{.Mobile}}</td>
+					    <td class="w1 c"><a href="userupdate?id={{.Id}}">修改</a>
+					    {{if eq .Status 1}}
+					        <a href="javascript:Delete('{{.Id}}');">删除</a>
+					    {{end}}
+					</tr>
+					{{end}}
+				</table>
+				当前:{{.cpage}}/{{.tpage}}页 <a href="user?cp=1">首页</a>
+				<a href="user?cp={{if le .cpage 1}}1{{else}}{{add .cpage -1}}{{end}}">上一页</a>
+				{{$cpageplusone := add .cpage 1}}
+				{{if ge $cpageplusone .tpage}}
+				<a href="user?cp={{.tpage}}">下一页</a>
+				{{else}}
+				<a href="user?cp={{add .cpage 1}}">下一页</a>
+				{{end}}
+				 <a href="user?cp={{.tpage}}">尾页</a>
+				 <select onchange="jump(this.value)">
+                    {{range $i,$v := .selectList}}
+                        {{if eq $v $.cpage}}
+                            <option selected="selected" value="{{$v}}">{{$v}}页</option>
+                        {{else}}
+                            <option value="{{$v}}">{{$v}}页</option>
+                        {{end}}
+                    {{end}}
+                 </select>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>

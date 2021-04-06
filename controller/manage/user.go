@@ -4,11 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 	ginsession "github.com/go-session/gin-session"
 	"net/http"
+	"strconv"
 	"time"
+	"tmsshopping/dao"
 	"tmsshopping/db"
 	"tmsshopping/domain"
 )
 
+// 新增用户页面
 func UserAddPage(ctx *gin.Context) {
 	attributes := gin.H{}
 	sess := ginsession.FromContext(ctx)
@@ -73,4 +76,32 @@ func UserAdd(ctx *gin.Context) {
 	}
 
 	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
+}
+
+// 用户管理页面
+func UserManagePage(ctx *gin.Context) {
+	var (
+		cpage      = 1
+		count      = 15
+		cp         = ctx.Query("cp")
+		attributes = gin.H{}
+	)
+
+	if v, err := strconv.Atoi(cp); err == nil {
+		cpage = v
+	}
+
+	tpage, _ := dao.TotalPageForUser(int64(count))
+	list, _ := dao.UserPagination(cpage, count)
+
+	selectList := make([]int, 0, tpage)
+	for i := 1; i <= tpage; i++ {
+		selectList = append(selectList, i)
+	}
+
+	attributes["userlist"] = list
+	attributes["cpage"] = cpage
+	attributes["tpage"] = tpage
+	attributes["selectList"] = selectList
+	ctx.HTML(http.StatusOK, "user-manage.tmpl", attributes)
 }
