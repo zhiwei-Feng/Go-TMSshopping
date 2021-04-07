@@ -145,3 +145,52 @@ func UserUpdatePage(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusOK, "user-modify.tmpl", attributes)
 }
+
+// 用户修改功能
+func UserUpdate(ctx *gin.Context) {
+	ctx.Header("Content-Type", "text/html;charset=utf-8")
+	// get params
+	var (
+		username string
+		name     string
+		pwd      string
+		sex      string
+		year     string
+		email    string
+		mobile   string
+		address  string
+	)
+
+	username = ctx.Query("userName")
+	name = ctx.Query("name")
+	pwd = ctx.Query("passWord")
+	sex = ctx.Query("sex")
+	year = ctx.Query("birthday")
+	email = ctx.Query("email")
+	mobile = ctx.Query("mobile")
+	address = ctx.Query("address")
+
+	// parse birthday
+	birthDay, err := time.Parse("2006-1-2", year)
+	if err != nil {
+		ctx.HTML(http.StatusOK, "user_mod_err.html", gin.H{})
+	}
+
+	updateUser := domain.User{
+		Id:       username,
+		UserName: name,
+		Password: pwd,
+		Sex:      sex,
+		Birthday: birthDay,
+		Email:    email,
+		Mobile:   mobile,
+		Address:  address,
+	}
+
+	result := db.DB.Model(&updateUser).Omit("EU_STATUS", "EU_USER_NAME").Updates(updateUser)
+	if result.Error != nil {
+		ctx.HTML(http.StatusOK, "user_mod_err.html", gin.H{})
+	}
+
+	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
+}
