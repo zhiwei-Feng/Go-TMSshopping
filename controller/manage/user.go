@@ -121,3 +121,27 @@ func UserDelete(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
 }
+
+// 用户修改页面
+func UserUpdatePage(ctx *gin.Context) {
+	ctx.Header("Content-Type", "text/html;charset=utf-8")
+	var (
+		id         = ctx.Query("id")
+		attributes = gin.H{}
+	)
+	sess := ginsession.FromContext(ctx)
+	loginUser, ok := sess.Get("name")
+	if !ok {
+		ctx.HTML(http.StatusOK, "login_first.html", gin.H{})
+	}
+	user, ok := loginUser.(domain.User)
+	if !ok {
+		ctx.HTML(http.StatusOK, "login_first.html", gin.H{})
+	}
+	updateUser, _ := dao.SelectUserByName(id)
+
+	attributes["name"] = user
+	attributes["user"] = updateUser
+
+	ctx.HTML(http.StatusOK, "user-modify.tmpl", attributes)
+}

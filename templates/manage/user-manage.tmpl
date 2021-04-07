@@ -42,7 +42,7 @@
 					    <td class="w2 c">{{.Sex}}</td>
 					    <td>{{.Email}}</td>
 					    <td class="w4 c">{{.Mobile}}</td>
-					    <td class="w1 c"><a href="userupdate?id={{.Id}}">修改</a>
+					    <td class="w1 c"><a href="userUpdatePage?id={{.Id}}">修改</a>
 					    {{if eq .Status 1}}
 					        <a href="javascript:Delete('{{.Id}}');">删除</a>
 					    {{end}}
