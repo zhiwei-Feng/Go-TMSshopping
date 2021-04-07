@@ -114,6 +114,7 @@ func main() {
 	m.GET("/userAddPage", manage.UserAddPage)
 	m.GET("/useradd", manage.UserAdd)
 	m.GET("/user", manage.UserManagePage)
+	m.GET("/userdel", manage.UserDelete)
 
 	_ = endless.ListenAndServe(":8888", router)
 }

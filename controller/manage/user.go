@@ -82,7 +82,7 @@ func UserAdd(ctx *gin.Context) {
 func UserManagePage(ctx *gin.Context) {
 	var (
 		cpage      = 1
-		count      = 15
+		count      = 5
 		cp         = ctx.Query("cp")
 		attributes = gin.H{}
 	)
@@ -104,4 +104,20 @@ func UserManagePage(ctx *gin.Context) {
 	attributes["tpage"] = tpage
 	attributes["selectList"] = selectList
 	ctx.HTML(http.StatusOK, "user-manage.tmpl", attributes)
+}
+
+// 用户删除 GET Method
+func UserDelete(ctx *gin.Context) {
+	ctx.Header("Content-Type", "text/html;charset=utf-8")
+	var (
+		id = ctx.Query("id")
+	)
+
+	delUser := domain.User{Id: id}
+	result := db.DB.Delete(&delUser)
+	if result.Error != nil {
+		ctx.HTML(http.StatusOK, "user_del_err.html", gin.H{})
+	}
+
+	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
 }
