@@ -126,6 +126,7 @@ func main() {
 	m.GET("/userupdate", manage.UserUpdate)
 	m.GET("/productClass", manage.ProductClassManagePage)
 	m.GET("/productClassAdd", manage.ProductClassAddPage)
+	m.GET("/doProductClassAdd", manage.ProductClassAdd)
 
 	_ = endless.ListenAndServe(":8888", router)
 }
