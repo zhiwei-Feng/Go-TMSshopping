@@ -31,3 +31,27 @@ func ProductClassManagePage(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusOK, "productClass-manage.tmpl", attributes)
 }
+
+func ProductClassAddPage(ctx *gin.Context) {
+	var (
+		attributes = gin.H{}
+		epclist    []domain.ProductCategory
+	)
+
+	sess := ginsession.FromContext(ctx)
+	loginUser, ok := sess.Get("name")
+	if !ok {
+		ctx.HTML(http.StatusOK, "login_first.html", gin.H{})
+	}
+	user, ok := loginUser.(domain.User)
+	if !ok {
+		ctx.HTML(http.StatusOK, "login_first.html", gin.H{})
+	}
+
+	epclist, _ = dao.SelectAllProductCate()
+
+	attributes["name"] = user
+	attributes["epclist"] = epclist
+
+	ctx.HTML(http.StatusOK, "productClass-add.tmpl", attributes)
+}
