@@ -5,7 +5,6 @@ import (
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 	ginsession "github.com/go-session/gin-session"
-	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"html/template"
@@ -15,22 +14,23 @@ import (
 	"tmsshopping/controller/manage"
 	"tmsshopping/controller/shop"
 	"tmsshopping/db"
+	"tmsshopping/log"
 )
 
-func Logger() *logrus.Logger {
-	//实例化
-	logger := logrus.New()
-	logger.Out = os.Stdout
-
-	//设置日志级别
-	logger.SetLevel(logrus.DebugLevel)
-
-	//设置日志格式
-	logger.SetFormatter(&logrus.TextFormatter{
-		TimestampFormat: "2006-01-02 15:04:05",
-	})
-	return logger
-}
+//func Logger() *logrus.Logger {
+//	//实例化
+//	logger := logrus.New()
+//	logger.Out = os.Stdout
+//
+//	//设置日志级别
+//	logger.SetLevel(logrus.DebugLevel)
+//
+//	//设置日志格式
+//	logger.SetFormatter(&logrus.TextFormatter{
+//		TimestampFormat: "2006-01-02 15:04:05",
+//	})
+//	return logger
+//}
 
 func add(x, y int) int {
 	return x + y
@@ -55,14 +55,15 @@ func main() {
 	}
 
 	// +--------------+ site config
-	Logger().Infoln("Welcome to TMS shopping application")
+	// [2] db
+	log.Log.Infoln("Welcome to TMS shopping application")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=True&loc=Local", mysqlu, mysqlp, mysqlAddr, database)
 	dbconn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("db conn fail.")
 	} else {
-		Logger().Infoln("database connect success.")
+		log.Log.Debugln("database connect success.")
 		db.DB = dbconn
 	}
 
@@ -80,6 +81,12 @@ func main() {
 	router.Static("/images", "./static/images")
 	router.Static("/scripts", "./static/scripts")
 	// +--------------+ 静态页面渲染
+	router.GET("/test", func(context *gin.Context) {
+		log.Log.WithField("test", "test").Info("测试文本")
+		log.Log.WithField("warn", "warn").Warn("警告文本")
+		log.Log.WithField("debug", "debug").Debug("警告文本")
+		log.Log.WithField("error", "error").Error("错误文本")
+	})
 	router.GET("/loginPage", func(context *gin.Context) {
 		context.HTML(http.StatusOK, "login.tmpl", gin.H{})
 	})

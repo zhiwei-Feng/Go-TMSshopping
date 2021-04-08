@@ -9,6 +9,7 @@ import (
 	"tmsshopping/dao"
 	"tmsshopping/db"
 	"tmsshopping/domain"
+	"tmsshopping/log"
 )
 
 // 新增用户页面
@@ -171,9 +172,14 @@ func UserUpdate(ctx *gin.Context) {
 	address = ctx.Query("address")
 
 	// parse birthday
-	birthDay, err := time.Parse("2006-1-2", year)
+	birthDay, err := time.Parse("2006-01-02 15:04:05 +0800 CST", year)
 	if err != nil {
-		ctx.HTML(http.StatusOK, "user_mod_err.html", gin.H{})
+		birthDay, err = time.Parse("2006-1-2", year)
+		if err != nil {
+			log.Log.WithField("err", err).Warn("生日格式转换错误")
+			ctx.HTML(http.StatusInternalServerError, "user_mod_err.html", gin.H{})
+			return
+		}
 	}
 
 	updateUser := domain.User{
@@ -188,9 +194,11 @@ func UserUpdate(ctx *gin.Context) {
 	}
 
 	result := db.DB.Model(&updateUser).Omit("EU_STATUS", "EU_USER_NAME").Updates(updateUser)
-	if result.Error != nil {
-		ctx.HTML(http.StatusOK, "user_mod_err.html", gin.H{})
+	if result.Error == nil {
+		ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
+		return
 	}
 
-	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
+	log.Log.WithField("err", result.Error.Error()).Warn("用户更新失败")
+	ctx.HTML(http.StatusInternalServerError, "user_mod_err.html", gin.H{})
 }
