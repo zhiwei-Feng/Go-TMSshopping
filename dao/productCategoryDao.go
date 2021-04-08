@@ -34,3 +34,13 @@ func SelectProductCateById(id int) (domain.ProductCategory, error) {
 
 	return target, nil
 }
+
+func SelectAllProductCate() ([]domain.ProductCategory, error) {
+	var list []domain.ProductCategory
+	result := db.DB.Find(&list)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return list, nil
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理-商城</title>
+<link type="text/css" rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/scripts/function-manage.js"></script>
+</head>
+<body>
+    {{template "manage-header" .name}}
+	<div id="position" class="wrap">
+		您现在的位置：<a href="/index">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box" }}
+		</div>
+		<div class="main">
+			<h2>分类管理</h2>
+			<div class="manage">
+				<table class="list">
+					<tr>
+						<th>ID</th>
+						<th>分类名称</th>
+						<th>操作</th>
+					</tr>
+					{{range $i,$v := .epclist}}
+					{{if eq $v.ParentId 0 }}
+					    <tr>
+                            <td class="first w4 c">{{$v.Id}}</td>
+                            <td>{{$v.Name}}</td>
+                            <td class="w1 c">
+                                <a href="toProductClassUpdate?id={{$v.Id}}">修改</a>
+                                <a href="productClassDel?id={{$v.Id}}">删除</a>
+                            </td>
+					    </tr>
+					    {{range $j,$v2 := $.epclist}}
+					        {{ $con1 := eq $v.Id $v2.ParentId }}
+					        {{ $con2 := ne $v2.Id $v2.ParentId }}
+					        {{if and $con1 $con2}}
+                                <tr>
+                                    <td class="first w4 c">{{$v2.Id}}</td>
+                                    <td class="childClass">{{$v2.Name}}</td>
+                                    <td class="w1 c">
+                                        <a href="toProductClassUpdate?id={{$v2.Id}}">修改</a>
+                                        <a href="javascript:productClassDel({{$v2.Id}})">删除</a>
+                                    </td>
+                                </tr>
+					        {{end}}
+					    {{end}}
+					{{end}}
+					{{end}}
+				</table>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
+
