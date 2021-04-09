@@ -85,3 +85,19 @@ func ProductClassAdd(ctx *gin.Context) {
 
 	ctx.Redirect(http.StatusFound, "productClass")
 }
+
+func ProductClassDel(ctx *gin.Context) {
+	idStr := ctx.Query("id")
+	if id, err := strconv.Atoi(idStr); err == nil {
+		result := db.DB.Delete(&domain.ProductCategory{}, id)
+		if result.Error != nil {
+			ctx.HTML(http.StatusInternalServerError, "productClass_del_err.html", gin.H{})
+			return
+		}
+
+		ctx.Redirect(http.StatusFound, "productClass")
+		return
+	}
+
+	ctx.HTML(http.StatusInternalServerError, "productClass_del_err.html", gin.H{})
+}

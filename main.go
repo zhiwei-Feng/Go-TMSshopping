@@ -17,21 +17,6 @@ import (
 	"tmsshopping/log"
 )
 
-//func Logger() *logrus.Logger {
-//	//实例化
-//	logger := logrus.New()
-//	logger.Out = os.Stdout
-//
-//	//设置日志级别
-//	logger.SetLevel(logrus.DebugLevel)
-//
-//	//设置日志格式
-//	logger.SetFormatter(&logrus.TextFormatter{
-//		TimestampFormat: "2006-01-02 15:04:05",
-//	})
-//	return logger
-//}
-
 func add(x, y int) int {
 	return x + y
 }
@@ -55,7 +40,7 @@ func main() {
 	}
 
 	// +--------------+ site config
-	// [2] db
+	// db
 	log.Log.Infoln("Welcome to TMS shopping application")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=True&loc=Local", mysqlu, mysqlp, mysqlAddr, database)
@@ -127,6 +112,7 @@ func main() {
 	m.GET("/productClass", manage.ProductClassManagePage)
 	m.GET("/productClassAdd", manage.ProductClassAddPage)
 	m.GET("/doProductClassAdd", manage.ProductClassAdd)
+	m.GET("/productClassDel", manage.ProductClassDel)
 
 	_ = endless.ListenAndServe(":8888", router)
 }
