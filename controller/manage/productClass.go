@@ -101,3 +101,34 @@ func ProductClassDel(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusInternalServerError, "productClass_del_err.html", gin.H{})
 }
+
+func ProductClassUpdatePage(ctx *gin.Context) {
+	var (
+		idStr      = ctx.Query("id")
+		attributes = gin.H{}
+		id         int
+		err        error
+	)
+
+	if id, err = strconv.Atoi(idStr); err != nil {
+		ctx.HTML(http.StatusBadRequest, "productClass_mod_err.html", gin.H{})
+		return
+	}
+
+	epc, err := dao.SelectProductCateById(id)
+	if err != nil {
+		ctx.HTML(http.StatusInternalServerError, "productClass_mod_err.html", gin.H{})
+		return
+	}
+
+	epclist, err := dao.SelectAllProductCate()
+	if err != nil {
+		ctx.HTML(http.StatusInternalServerError, "productClass_mod_err.html", gin.H{})
+		return
+	}
+
+	attributes["epc"] = epc
+	attributes["epclist"] = epclist
+
+	ctx.HTML(http.StatusOK, "productClass-modify.tmpl", attributes)
+}
