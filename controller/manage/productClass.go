@@ -132,3 +132,40 @@ func ProductClassUpdatePage(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusOK, "productClass-modify.tmpl", attributes)
 }
+
+func ProductClassUpdate(ctx *gin.Context) {
+	var (
+		paramId        = ctx.Query("id")
+		paramFid       = ctx.Query("parentId")
+		paramClassName = ctx.Query("className")
+		id             int
+		fid            int
+		err            error
+	)
+
+	if id, err = strconv.Atoi(paramId); err != nil {
+		log.Log.WithField("err", err).Error("param id parse error")
+		ctx.HTML(http.StatusBadRequest, "productClass_mod_err.html", gin.H{})
+		return
+	}
+
+	if fid, err = strconv.Atoi(paramFid); err != nil {
+		log.Log.WithField("err", err).Error("param parentId parse error")
+		ctx.HTML(http.StatusBadRequest, "productClass_mod_err.html", gin.H{})
+		return
+	}
+
+	updateProdCate := domain.ProductCategory{
+		Id:       id,
+		Name:     paramClassName,
+		ParentId: fid,
+	}
+
+	result := db.DB.Save(&updateProdCate)
+	if result.Error != nil {
+		ctx.HTML(http.StatusInternalServerError, "productClass_mod_err.html", gin.H{})
+		return
+	}
+
+	ctx.Redirect(http.StatusFound, "productClass")
+}
