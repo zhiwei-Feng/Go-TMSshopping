@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理 -商城</title>
+<link type="text/css" rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/scripts/function-manage.js"></script>
+<script type="text/javascript">
+	function jump2(p) {
+		location.href = 'productSelect?cp=' + p;
+	}
+</script>
+</head>
+<body>
+	{{template "manage-header" .name}}
+	<div id="position" class="wrap">
+		您现在的位置：<a href="/index">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box"}}
+		</div>
+		<div class="main">
+			<h2>商品管理</h2>
+
+			<div class="manage">
+				<table class="list">
+					<tr>
+						<th>ID</th>
+						<th>商品名称</th>
+						<th>操作</th>
+					</tr>
+					{{range .eplist}}
+						<tr>
+							<td class="first w4 c">{{.Id}}</td>
+							<td class="thumb"><img
+								src="/images/product/{{.FileName}}" width="80"
+								height="80" /><a href="/selectProductView?id={{.Id}}"
+								target="_blank">{{.Name}}</a></td>
+							<td class="w1 c"><a href="toProductUpdate?id={{.Id}}">修改</a>
+								<a href="javascript:productDel({{.Id}})">删除</a></td>
+						</tr>
+					{{end}}
+				</table>
+			</div>
+			<div class="pager">
+				<ul class="clearfix">
+					<li>当前:{{.cpage}}/{{.tpage}}页</li>
+					<li><a href="productSelect?cp=1">首页</a></li>
+					{{if le .cpage 1}}
+					<li><a href="productSelect?cp=1">上一页</a></li>
+					{{else}}
+					<li><a href="productSelect?cp={{add .cpage -1}}">上一页</a></li>
+					{{end}}
+					{{$tmp1 := add .cpage 1}}
+					{{if ge $tmp1 .tpage}}
+					<li><a href="productSelect?cp={{.tpage}}">下一页</a></li>
+					{{else}}
+					<li><a href="productSelect?cp={{$tmp1}}">下一页</a></li>
+					{{end}}
+					<li><a href="productSelect?cp={{.tpage}}">尾页</a></li>
+					<li><select onchange="jump2(this.value)">
+					    {{range $i,$v := .plist}}
+					    {{if eq $v $.cpage}}
+					    <option selected value="{{$v}}">{{$v}}页</option>
+					    {{else}}
+					    <option value="{{$v}}">{{$v}}页</option>
+					    {{end}}
+					    {{end}}
+					</select></li>
+				</ul>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
+
