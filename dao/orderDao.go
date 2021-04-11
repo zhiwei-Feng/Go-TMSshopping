@@ -39,6 +39,7 @@ func TotalPageForOrder(count int, id, name string) (int, error) {
 }
 
 func SelectAllOrderForPagination(cpage, count int, id, name string) ([]domain.Order, error) {
+	// todo: 该方法的含义有待研究
 	var list []domain.Order
 	querySql := "select * from EASYBUY_ORDER where 1=1 "
 	values := make([]interface{}, 0, 4)
