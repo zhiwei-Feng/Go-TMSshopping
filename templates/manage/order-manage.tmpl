@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理 -商城</title>
+<link type="text/css" rel="stylesheet" href="../css/style.css" />
+<script type="text/javascript" src="../scripts/function-manage.js"></script>
+</head>
+<body>
+	{{template "manage-header" .name}}
+	<div id="position" class="wrap">
+		您现在的位置：<a href="/index">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box"}}
+		</div>
+		<div class="main">
+			<h2>订单管理</h2>
+			<div class="manage">
+				<div class="search">
+					<form method="get">
+						订单号：<input type="text" class="text" name="orderId" /> 订货人：<input
+							type="text" class="text" name="userName" /> <label
+							class="ui-blue"><input type="submit" name="submit"
+							value="查询" /></label>
+					</form>
+				</div>
+				<div class="spacer"></div>
+				<table class="list">
+					<tr>
+						<th>ID</th>
+						<th>姓名</th>
+						<th>发货地址</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					{{range .order}}
+						<tr>
+							<td class="first w4 c">{{.Id}}</td>
+							<td class="w1 c">{{.UserId}}</td>
+							<td>{{.UserAddress}}</td>
+							<td class="w1 c">{{.Status}}</td>
+							<td class="w1 c"><a href="touporder?id={{.Id}}">修改</a> <a
+								href="javascript:DeleteOder({{.Id}});">删除</a></td>
+						</tr>
+					{{end}}
+				</table>
+				<div class="pager">
+					当前:{{.cpage}}/{{.tpage}}页
+					<a href="ordersel?cp=1&orderId={{.orderId}}&userName={{.userName}}">首页</a>
+					{{if le .cpage 1}}
+					<a href="ordersel?cp=1&orderId={{.orderId}}&userName={{.userName}}">上一页</a>
+					{{else}}
+					<a href="ordersel?cp={{add .cpage -1}}&orderId={{.orderId}}&userName={{.userName}}">上一页</a>
+					{{end}}
+					{{$tmp1 := add .cpage 1}}
+                    {{if ge $tmp1 .tpage}}
+                    <a href="ordersel?cp={{.tpage}}&orderId={{.orderId}}&userName={{.userName}}">下一页</a>
+                    {{else}}
+                    <a href="ordersel?cp={{$tmp1}}&orderId={{.orderId}}&userName={{.userName}}">下一页</a>
+                    {{end}}
+					<a href="ordersel?cp={{.tpage}}&orderId={{.orderId}}&userName={{.userName}}">尾页</a>
+					<select onchange="jumporder(this.value,'{{.orderId}}','{{.userName}}')">
+                        {{range $i,$v := .plist}}
+                        {{if eq $v $.cpage}}
+                        <option selected value="{{$v}}">{{$v}}页</option>
+                        {{else}}
+                        <option value="{{$v}}">{{$v}}页</option>
+                        {{end}}
+                        {{end}}
+                    </select>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
+
