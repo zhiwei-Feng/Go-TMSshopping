@@ -51,3 +51,30 @@ func ProductManagePage(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusOK, "product-manage.tmpl", attributes)
 }
+
+func ProductAddPage(ctx *gin.Context) {
+	var (
+		attributes = gin.H{}
+		flist      []domain.ProductCategory
+		clist      []domain.ProductCategory
+	)
+
+	flist, _ = dao.SelectProductCateFather()
+	clist, _ = dao.SelectProductCateChild()
+
+	sess := ginsession.FromContext(ctx)
+	loginUser, ok := sess.Get("name")
+	if !ok {
+		ctx.HTML(http.StatusOK, "login_first.html", gin.H{})
+	}
+	user, ok := loginUser.(domain.User)
+	if !ok {
+		ctx.HTML(http.StatusOK, "login_first.html", gin.H{})
+	}
+
+	attributes["flist"] = flist
+	attributes["clist"] = clist
+	attributes["name"] = user
+
+	ctx.HTML(http.StatusOK, "product-add.tmpl", attributes)
+}

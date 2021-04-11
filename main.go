@@ -21,6 +21,10 @@ func add(x, y int) int {
 	return x + y
 }
 
+func reduce(x, y int) int {
+	return x - y
+}
+
 func main() {
 	mysqlu, exist := os.LookupEnv("MYSQLU")
 	if !exist {
@@ -58,7 +62,7 @@ func main() {
 	// gin-contrib/sessions就是不好使, 所以只能用第三方库go-session/gin-session
 	router.Use(ginsession.New())
 	// 定义一些模板函数
-	router.SetFuncMap(template.FuncMap{"add": add})
+	router.SetFuncMap(template.FuncMap{"add": add, "reduce": reduce})
 	// 加载模板及html文件，注意这种写法下，templates根目录的模板无法加载
 	router.LoadHTMLGlob("templates/**/*")
 	// 加载静态文件
@@ -116,6 +120,7 @@ func main() {
 	m.GET("/toProductClassUpdate", manage.ProductClassUpdatePage)
 	m.GET("/doProductClassUpdate", manage.ProductClassUpdate)
 	m.GET("/productSelect", manage.ProductManagePage)
+	m.GET("/productAdd", manage.ProductAddPage)
 
 	_ = endless.ListenAndServe(":8888", router)
 }

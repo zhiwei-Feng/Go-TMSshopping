@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理 -商城</title>
+<link type="text/css" rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/scripts/function-manage.js"></script>
+</head>
+<body>
+	{{template "manage-header" .name}}
+	<div id="position" class="wrap">
+		您现在的位置：<a href="/index">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box"}}
+		</div>
+		<div class="main">
+			<h2>添加商品</h2>
+			<div class="manage">
+				<form action="doProductAdd" method="post"
+					enctype="multipart/form-data">
+					<table class="form">
+						<tr>
+							<td class="field">商品名称：</td>
+							<td><input type="text" class="text" name="productName" /></td>
+						</tr>
+						<tr>
+							<td class="field">所属分类：</td>
+							<td><select name="parentId">
+                                {{range $i,$v := .flist}}
+                                <option value="{{$v.Id}}" disabled="disabled">{{$v.Name}}</option>
+                                    {{range $.clist}}
+                                        {{if eq $v.Id .ParentId}}
+                                        <option value="{{reduce $v.Id .Id}}">&nbsp;&nbsp;{{.Name}}</option>
+                                        {{end}}
+                                    {{end}}
+                                {{end}}
+							</select></td>
+						</tr>
+						<tr>
+							<td class="field">商品图片：</td>
+							<td><input type="file" class="text" name="photo" /></td>
+						</tr>
+						<tr>
+							<td class="field">商品价格：</td>
+							<td><input type="text" class="text tiny" name="productPrice" />
+								元(整数)</td>
+						</tr>
+						<tr>
+							<td class="field">描述：</td>
+							<td><input type="text" class="text" name="productDesc" /></td>
+						</tr>
+						<tr>
+							<td class="field">库存：</td>
+							<td><input type="text" class="text tiny" name="productStock" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><label class="ui-blue"><input type="submit"
+									name="submit" value="添加" /></label></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
+
