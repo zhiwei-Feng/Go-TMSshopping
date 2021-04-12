@@ -124,6 +124,7 @@ func main() {
 	m.GET("/ordersel", manage.OrderManagePage)
 	m.GET("/delorder", manage.OrderDelete)
 	m.GET("/touporder", manage.OrderUpdatePage)
+	m.GET("/douporder", manage.OrderUpdate)
 
 	_ = endless.ListenAndServe(":8888", router)
 }

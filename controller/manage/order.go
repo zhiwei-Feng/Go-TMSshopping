@@ -105,3 +105,37 @@ func OrderUpdatePage(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusOK, "order-modify.tmpl", attributes)
 }
+
+func OrderUpdate(ctx *gin.Context) {
+	ctx.Header("Content-Type", "text/html;charset=utf-8")
+	var (
+		paramOrderId = ctx.Query("orderId")
+		paramStatus  = ctx.Query("tatus")
+		orderId      int
+		status       int
+		err          error
+	)
+
+	if orderId, err = strconv.Atoi(paramOrderId); err != nil {
+		ctx.HTML(http.StatusBadRequest, "order_mod_err.html", gin.H{})
+		return
+	}
+
+	if status, err = strconv.Atoi(paramStatus); err != nil {
+		ctx.HTML(http.StatusBadRequest, "order_mod_err.html", gin.H{})
+		return
+	}
+
+	upOrder := domain.Order{
+		Id:     orderId,
+		Status: status,
+	}
+
+	result := db.DB.Model(&upOrder).Select("EO_STATUS").Updates(&upOrder)
+	if result.Error != nil {
+		ctx.HTML(http.StatusInternalServerError, "order_mod_err.html", gin.H{})
+		return
+	}
+
+	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
+}
