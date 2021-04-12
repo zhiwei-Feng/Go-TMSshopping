@@ -15,3 +15,14 @@ func SelectOrderVOByUsername(username string) ([]domain.OrderVO, error) {
 
 	return orderList, nil
 }
+
+func SelectOrderVOById(id int) ([]domain.OrderVO, error) {
+	var list []domain.OrderVO
+	query := "select * from EASYBUY_ORDER eo,EASYBUY_ORDER_detail eod,EASYBUY_PRODUCT ep where eo.eo_id=? and eod.eo_id=eo.eo_id and eod.ep_id= ep.ep_id"
+	result := db.DB.Raw(query, id).Scan(&list)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return list, nil
+}

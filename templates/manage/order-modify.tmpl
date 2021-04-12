@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理-商城</title>
+<link type="text/css" rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/scripts/function-manage.js"></script>
+</head>
+<body>
+	{{template "manage-header" .name}}
+	<div id="position" class="wrap">
+		您现在的位置：<a href="/index">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box"}}
+		</div>
+		<div class="main">
+			<h2>修改订单</h2>
+			<div class="manage">
+				<form action="douporder">
+					<table class="form">
+						<tr>
+							<td class="field">订单ID：</td>
+							<td><input type="text" class="text" name="orderId"
+								value="{{.order.Id}}" readonly="readonly" /></td>
+						</tr>
+						<tr>
+							<td class="field">订购人姓名：</td>
+							<td><input type="text" class="text" name="name"
+								value="{{.order.UserId}}" readonly="readonly" /></td>
+						</tr>
+						<tr>
+							<td class="field">收货地址</td>
+							<td><input type="text" class="text" name="addres"
+								value="{{.order.UserAddress}}" readonly="readonly" /></td>
+						</tr>
+						<tr>
+							<td class="field">总价格</td>
+							<td><input type="text" class="text" name="cost"
+								value="{{.order.Cost}}" readonly="readonly" /></td>
+						</tr>
+						<tr>
+							<td class="field">订单状态</td>
+							<td><select name="tatus"
+								onchange="change(this,{{.order.Status}})">
+								    {{range .statuslist}}
+                                        {{if eq $.order.Status .Val}}
+                                        <option value={{.Val}} selected>{{.Name}}</option>
+                                        {{else}}
+                                        <option value={{.Val}}>{{.Name}}</option>
+                                        {{end}}
+								    {{end}}
+							</select></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><label class="ui-blue"><input type="submit"
+									name="submit" value="更新" /></label></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		<div class="main">
+			<h2>订单详细</h2>
+			<div class="manage">
+				<table border="1" width="600px" height="100px" bordercolor="red">
+					<tr align="center">
+						<td class="field">商品名称</td>
+						<td class="field">商品图片</td>
+						<td class="field">商品价格</td>
+						<td class="field">购买数量</td>
+						<td class="field">商品库存</td>
+					</tr>
+					{{range .dlist}}
+						<tr align="center">
+							<td>{{.ProdName}}</td>
+							<td><img src="/images/product/{{.ProdFileName}}"
+								height="100" width="100" /></td>
+							<td>{{.ProdPrice}}</td>
+							<td>{{.Quantity}}</td>
+							<td>{{.ProdStock}}</td>
+						</tr>
+					{{end}}
+				</table>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>

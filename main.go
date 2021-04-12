@@ -123,7 +123,7 @@ func main() {
 	m.GET("/productAdd", manage.ProductAddPage)
 	m.GET("/ordersel", manage.OrderManagePage)
 	m.GET("/delorder", manage.OrderDelete)
-	//m.GET("/touporder", manage.)
+	m.GET("/touporder", manage.OrderUpdatePage)
 
 	_ = endless.ListenAndServe(":8888", router)
 }

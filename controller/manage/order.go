@@ -79,3 +79,29 @@ func OrderDelete(ctx *gin.Context) {
 
 	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
 }
+
+func OrderUpdatePage(ctx *gin.Context) {
+	var (
+		idStr      = ctx.Query("id")
+		id         int
+		order      domain.Order
+		dlist      []domain.OrderVO
+		attributes = gin.H{}
+	)
+
+	id, _ = strconv.Atoi(idStr)
+
+	_ = db.DB.First(&order, id)
+	dlist, _ = dao.SelectOrderVOById(id)
+
+	sess := ginsession.FromContext(ctx)
+	if name, ok := sess.Get("name"); ok {
+		attributes["name"] = name // 登录用户状态载入
+	}
+
+	attributes["dlist"] = dlist
+	attributes["order"] = order
+	attributes["statuslist"] = domain.StatusList
+
+	ctx.HTML(http.StatusOK, "order-modify.tmpl", attributes)
+}

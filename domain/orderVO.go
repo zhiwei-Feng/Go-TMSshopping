@@ -1,5 +1,6 @@
 package domain
 
+// 对应EASYBUY_Ddan
 type OrderVO struct {
 	Id           int     `gorm:"column:EO_ID"`
 	UserId       string  `gorm:"column:EO_USER_ID"`
