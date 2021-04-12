@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"tmsshopping/dao"
+	"tmsshopping/db"
 	"tmsshopping/domain"
 )
 
@@ -47,4 +48,26 @@ func CommentManagePage(ctx *gin.Context) {
 	attributes["plist"] = plist
 
 	ctx.HTML(http.StatusOK, "comment-manage.tmpl", attributes)
+}
+
+func CommentDelete(ctx *gin.Context) {
+	ctx.Header("Content-Type", "text/html;charset=utf-8")
+	var (
+		idStr = ctx.Query("id")
+		id    int
+		err   error
+	)
+
+	if id, err = strconv.Atoi(idStr); err != nil {
+		ctx.HTML(http.StatusBadRequest, "comment_del_err.html", gin.H{})
+		return
+	}
+
+	result := db.DB.Delete(&domain.Comment{}, id)
+	if result.Error != nil {
+		ctx.HTML(http.StatusInternalServerError, "comment_del_err.html", gin.H{})
+		return
+	}
+
+	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
 }
