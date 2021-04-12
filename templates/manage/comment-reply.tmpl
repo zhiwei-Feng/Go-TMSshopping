@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商城</title>
+<link type="text/css" rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/scripts/function-manage.js"></script>
+</head>
+<body>
+{{template "manage-header" .name}}
+<div id="position" class="wrap">
+	您现在的位置：<a href="/index">商城</a> &gt; 管理后台
+</div>
+<div id="main" class="wrap">
+	<div id="menu-mng" class="lefter">
+		{{template "manage-menu-box"}}
+	</div>
+	<div class="main">
+		<h2>回复留言</h2>
+		<div class="manage">
+			<form action="UpManage" method="post">
+				<table class="form">
+					<tr>
+						<td class="field">留言ID：</td>
+						<td><input type="text" class="text" name="orderId" readonly="readonly" value="{{.list.Id}}"  /></td>
+					</tr>
+					<tr>
+						<td class="field">留言姓名：</td>
+						<td><input type="text" class="text" name="name" readonly="readonly" value="{{.list.NickName}}" /></td>
+					</tr>
+					<tr>
+						<td class="field">留言内容：</td>
+						<td><textarea name="Content" readonly="readonly"> {{.list.Content}}</textarea></td>
+					</tr>
+					<tr>
+						<td class="field">回复内容：</td>
+						<td><textarea name="replyContent"></textarea></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><label class="ui-blue"><input type="submit" name="submit" value="更新" /></label></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+</body>
+</html>

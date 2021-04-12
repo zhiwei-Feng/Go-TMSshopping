@@ -127,6 +127,8 @@ func main() {
 	m.GET("/douporder", manage.OrderUpdate)
 	m.GET("/SelManage", manage.CommentManagePage)
 	m.GET("/DelManage", manage.CommentDelete)
+	m.GET("/UpdateManage", manage.CommentReplyPage)
+	m.POST("/UpManage", manage.CommentReply)
 
 	_ = endless.ListenAndServe(":8888", router)
 }
