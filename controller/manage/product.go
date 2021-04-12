@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	ginsession "github.com/go-session/gin-session"
+	"gorm.io/gorm"
 	"net/http"
 	"path/filepath"
 	"strconv"
@@ -208,4 +209,81 @@ func ProductUpdatePage(ctx *gin.Context) {
 	attributes["name"] = loginUser
 
 	ctx.HTML(http.StatusOK, "product-modify.tmpl", attributes)
+}
+
+func ProductUpdate(ctx *gin.Context) {
+	var (
+		photoUpdated = false
+		idStr        = ctx.PostForm("id")
+		pnameStr     = ctx.PostForm("productName")
+		pidStr       = ctx.PostForm("parentId")
+		priceStr     = ctx.PostForm("productPrice")
+		descStr      = ctx.PostForm("productDesc")
+		stockStr     = ctx.PostForm("productStock")
+		stock        int
+		price        int
+		id           int
+		err          error
+	)
+
+	// handle upload file
+	photo, err := ctx.FormFile("photo")
+	if err != nil {
+		log.Log.WithField("err", err.Error()).Warn("未检测到合法的上传图片")
+	} else {
+		dst := filepath.Join("images", "product", photo.Filename)
+		if err := ctx.SaveUploadedFile(photo, dst); err != nil {
+			ctx.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
+			return
+		}
+		photoUpdated = true
+	}
+
+	if stock, err = strconv.Atoi(stockStr); err != nil {
+		ctx.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	if price, err = strconv.Atoi(priceStr); err != nil {
+		ctx.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	if id, err = strconv.Atoi(idStr); err != nil {
+		ctx.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	ids := strings.Split(pidStr, "-")
+	if len(ids) != 2 {
+		ctx.String(http.StatusBadRequest, "parentId 错误")
+		return
+	}
+	cid, err1 := strconv.Atoi(ids[0])
+	ccid, err2 := strconv.Atoi(ids[1])
+	if err1 != nil || err2 != nil {
+		ctx.String(http.StatusBadRequest, "parentId 错误")
+		return
+	}
+
+	upProd := domain.Product{
+		Id:              id,
+		Name:            pnameStr,
+		Description:     descStr,
+		Price:           float32(price),
+		Stock:           stock,
+		CategoryId:      cid,
+		CategoryChildId: ccid,
+	}
+
+	var dbResult *gorm.DB
+	if photoUpdated {
+		upProd.FileName = photo.Filename
+		dbResult = db.DB.Save(&upProd)
+	} else {
+		dbResult = db.DB.Model(&upProd).Omit("EP_FILE_NAME").Updates(&upProd)
+	}
+	if dbResult.Error != nil {
+		ctx.String(http.StatusInternalServerError, "fail to update product.")
+		return
+	}
+
+	ctx.Redirect(http.StatusFound, "productSelect")
 }
