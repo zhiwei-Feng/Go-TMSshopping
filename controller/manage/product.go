@@ -156,3 +156,24 @@ func ProductAdd(ctx *gin.Context) {
 
 	ctx.Redirect(http.StatusFound, "productSelect")
 }
+
+func ProductDelete(ctx *gin.Context) {
+	var (
+		idStr = ctx.Query("id")
+		id    int
+		err   error
+	)
+
+	if id, err = strconv.Atoi(idStr); err != nil {
+		ctx.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	result := db.DB.Delete(&domain.Product{}, id)
+	if result.Error != nil {
+		ctx.String(http.StatusInternalServerError, result.Error.Error())
+		return
+	}
+
+	ctx.Redirect(http.StatusFound, "productSelect")
+}
