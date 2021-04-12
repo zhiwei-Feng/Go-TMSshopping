@@ -170,7 +170,7 @@ a:hover, a:active {
 
 #header .help a.shopping {
     padding-left: 18px;
-    background: url(../images/bg.png) left -69px no-repeat;
+    background: url(../../images/bg.png) left -69px no-repeat;
 }
 
 #header .navbar {
@@ -182,7 +182,7 @@ a:hover, a:active {
     float: left;
     display: inline;
     margin: 0 3px;
-    background: url(../images/bg.png) right -30px no-repeat;
+    background: url(../../images/bg.png) right -30px no-repeat;
     padding-right: 20px;
 }
 
@@ -190,7 +190,7 @@ a:hover, a:active {
     display: block;
     word-spacing: 5px;
     letter-spacing: 5px;
-    background: url(../images/bg.png) left -30px no-repeat;
+    background: url(../../images/bg.png) left -30px no-repeat;
     padding-left: 20px;
     padding-top: 4px;
     line-height: 26px;
@@ -324,7 +324,7 @@ a:hover, a:active {
     float: right;
     display: inline-block;
     height: 25px;
-    background-image: url(../images/bg.png);
+    background-image: url(../../images/bg.png);
     background-repeat: no-repeat;
     background-position: -26px -90px;
 }
@@ -404,7 +404,7 @@ a:hover, a:active {
     margin-left: 10px;
     padding-left: 22px;
     padding-right: 10px;
-    background: url(../images/bg.png) -232px -63px no-repeat;
+    background: url(../../images/bg.png) -232px -63px no-repeat;
 }
 
 #register form table td span.error {
@@ -468,7 +468,7 @@ a:hover, a:active {
 
 #main .lefter .box dl dd {
     margin-left: 10px;
-    background: url(../images/bg.png) -232px -82px no-repeat;
+    background: url(../../images/bg.png) -232px -82px no-repeat;
     padding-left: 25px;
 }
 
@@ -546,7 +546,7 @@ a:hover, a:active {
 }
 
 .news-list h4 {
-    background: url(../images/bg.png) left -124px;
+    background: url(../../images/bg.png) left -124px;
     font-size: 12px;
     line-height: 28px;
     border-bottom: 1px solid #e0e0e0;
@@ -558,7 +558,7 @@ a:hover, a:active {
 }
 
 .news-list ul li {
-    background: url(../images/bg.png) -240px -153px no-repeat;
+    background: url(../../images/bg.png) -240px -153px no-repeat;
     padding-left: 10px;
     white-space: nowrap;
 }
@@ -570,7 +570,7 @@ a:hover, a:active {
 #main .main h2 {
     font-size: 14px;
     line-height: 30px;
-    background: url(../images/bg.png) -230px -100px no-repeat;
+    background: url(../../images/bg.png) -230px -100px no-repeat;
     border-bottom: 2px solid #fbaa62;
     padding-left: 25px;
 }
@@ -635,7 +635,7 @@ ul.product li dl dd.price {
     border-left: 1px solid #999;
     border-top: 1px solid #999;
     border-right: 1px solid #999;
-    background: url(../images/bg.png) left -124px;
+    background: url(../../images/bg.png) left -124px;
     line-height: 26px;
     height: 24px;
     overflow: hidden;
@@ -643,7 +643,7 @@ ul.product li dl dd.price {
 
 #chater dl dt {
     float: left;
-    background: url(../images/bg.png) left -156px;
+    background: url(../../images/bg.png) left -156px;
     width: 16px;
     height: 16px;
     margin: 5px;
@@ -742,7 +742,7 @@ ul.product li dl dd.price {
 #product .infos .buy .button input {
     border: 0;
     margin: 0 10px;
-    background: url(../images/bg.png) left -176px;
+    background: url(../../images/bg.png) left -176px;
     height: 35px;
     width: 144px;
     cursor: pointer;
@@ -837,7 +837,7 @@ ul.product li dl dd.price {
 
 #shopping .button input {
     border: 0;
-    background: url(../images/bg.png) left -213px;
+    background: url(../../images/bg.png) left -213px;
     width: 144px;
     height: 35px;
     cursor: pointer;
@@ -875,7 +875,7 @@ ul.product li dl dd.price {
 
 #chat-room .lefter ul li a {
     display: block;
-    background: url(../images/bg.png) -231px -152px no-repeat;
+    background: url(../../images/bg.png) -231px -152px no-repeat;
     padding-left: 20px;
 }
 

@@ -32,7 +32,7 @@
                                 <option value="{{$v.Id}}" disabled="disabled">{{$v.Name}}</option>
                                     {{range $.clist}}
                                         {{if eq $v.Id .ParentId}}
-                                        <option value="{{reduce $v.Id .Id}}">&nbsp;&nbsp;{{.Name}}</option>
+                                        <option value="{{$v.Id}}-{{.Id}}">&nbsp;&nbsp;{{.Name}}</option>
                                         {{end}}
                                     {{end}}
                                 {{end}}

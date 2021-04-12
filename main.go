@@ -67,7 +67,7 @@ func main() {
 	router.LoadHTMLGlob("templates/**/*")
 	// 加载静态文件
 	router.Static("/css", "./static/css")
-	router.Static("/images", "./static/images")
+	router.Static("/images", "./images")
 	router.Static("/scripts", "./static/scripts")
 	// +--------------+ 静态页面渲染
 	router.GET("/test", func(context *gin.Context) {
@@ -121,6 +121,7 @@ func main() {
 	m.GET("/doProductClassUpdate", manage.ProductClassUpdate)
 	m.GET("/productSelect", manage.ProductManagePage)
 	m.GET("/productAdd", manage.ProductAddPage)
+	m.POST("/doProductAdd", manage.ProductAdd)
 	m.GET("/ordersel", manage.OrderManagePage)
 	m.GET("/delorder", manage.OrderDelete)
 	m.GET("/touporder", manage.OrderUpdatePage)
