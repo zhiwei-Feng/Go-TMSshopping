@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理-商城</title>
+<link type="text/css" rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/scripts/function-manage.js"></script>
+<script type="text/javascript">
+	function check() {
+		var num = parseInt(document.getElementById("y").value);
+		if (num < 0) {
+			document.getElementById("yy").innerHTML = "<font color='red'>价格不能为负数</font>";
+			document.getElementById("sub").disabled = true;
+		} else {
+			document.getElementById("yy").innerHTML = "";
+			document.getElementById("sub").disabled = false;
+		}
+	}
+	function check2() {
+		var num = parseInt(document.getElementById("k").value);
+		if (num < 0) {
+			document.getElementById("kk").innerHTML = "<font color='red'>库存不能为负数</font>";
+			document.getElementById("sub").disabled = true;
+		} else {
+			document.getElementById("kk").innerHTML = "";
+			document.getElementById("sub").disabled = false;
+		}
+	}
+</script>
+</head>
+<body>
+	{{template "manage-header" .name}}
+	<div id="position" class="wrap">
+		您现在的位置：<a href="index.jsp">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box"}}
+		</div>
+		<div class="main">
+			<h2>添加商品</h2>
+			<div class="manage">
+				<form action="doProductUpdate" method="post"
+					enctype="multipart/form-data">
+					<table class="form">
+						<tr>
+							<td class="field">商品名称：</td>
+							<td><input type="text" class="text" name="productName"
+								value="{{.p.Name}}" /></td>
+							<td><input type="hidden" name="id" value="{{.p.Id}}" /></td>
+						</tr>
+						<tr>
+							<td class="field">所属分类：</td>
+							<td><select name="parentId">
+							    {{range $i,$v := .flist}}
+							    <option value="{{$v.Id}}" disabled="disabled">{{$v.Name}}</option>
+							        {{range $.clist}}
+							        {{if eq $v.Id .ParentId}}
+							            {{if eq $.p.CategoryChildId .Id}}
+							            <option value="{{$v.Id}}-{{.Id}}" selected="selected">&nbsp;&nbsp;{{.Name}}</option>
+							            {{else}}
+							            <option value="{{$v.Id}}-{{.Id}}">&nbsp;&nbsp;{{.Name}}</option>
+							            {{end}}
+							        {{end}}
+							        {{end}}
+							    {{end}}
+							</select></td>
+						</tr>
+						<tr>
+							<td class="field">商品图片：</td>
+							<td><input type="file" class="text" name="photo"
+								value="{{.p.FileName}}" /></td>
+						</tr>
+						<tr>
+							<td class="field">商品价格：</td>
+							<td><input type="text" class="text tiny" name="productPrice"
+								value="{{.p.Price}}" onblur="check()" id="y" /> 元<span
+								id="yy"></span></td>
+						</tr>
+						<tr>
+							<td class="field">描述：</td>
+							<td><input type="text" class="text" name="productDesc"
+								value="{{.p.Description}}" /></td>
+						</tr>
+						<tr>
+							<td class="field">库存：</td>
+							<td><input type="text" class="text tiny" name="productStock"
+								value="{{.p.Stock}}" onblur="check2()" id="k" /><span id="kk"></span></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><label class="ui-blue"><input type="submit"
+									name="submit" value="修改" id="sub" /></label></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
+

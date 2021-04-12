@@ -123,6 +123,7 @@ func main() {
 	m.GET("/productAdd", manage.ProductAddPage)
 	m.POST("/doProductAdd", manage.ProductAdd)
 	m.GET("/productDel", manage.ProductDelete)
+	m.GET("/toProductUpdate", manage.ProductUpdatePage)
 	m.GET("/ordersel", manage.OrderManagePage)
 	m.GET("/delorder", manage.OrderDelete)
 	m.GET("/touporder", manage.OrderUpdatePage)

@@ -177,3 +177,35 @@ func ProductDelete(ctx *gin.Context) {
 
 	ctx.Redirect(http.StatusFound, "productSelect")
 }
+
+func ProductUpdatePage(ctx *gin.Context) {
+	var (
+		idStr      = ctx.Query("id")
+		id         int
+		err        error
+		attributes = gin.H{}
+	)
+
+	if id, err = strconv.Atoi(idStr); err != nil {
+		ctx.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	sess := ginsession.FromContext(ctx)
+	loginUser, ok := sess.Get("name")
+	if !ok {
+		ctx.HTML(http.StatusOK, "login_first.html", gin.H{})
+		return
+	}
+
+	p, _ := dao.SelectProductById(id)
+	flist, _ := dao.SelectProductCateFather()
+	clist, _ := dao.SelectProductCateChild()
+
+	attributes["p"] = p
+	attributes["flist"] = flist
+	attributes["clist"] = clist
+	attributes["name"] = loginUser
+
+	ctx.HTML(http.StatusOK, "product-modify.tmpl", attributes)
+}
