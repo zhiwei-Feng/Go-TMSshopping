@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商城</title>
+<link type="text/css" rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/scripts/function-manage.js"></script>
+</head>
+<body>
+	{{template "manage-header" .name}}
+	<div id="position" class="wrap">
+		您现在的位置：<a href="/index">商城</a> &gt; 管理后台
+	</div>
+	<div id="main" class="wrap">
+		<div id="menu-mng" class="lefter">
+			{{template "manage-menu-box"}}
+		</div>
+		<div class="main">
+			<h2>留言管理</h2>
+			<div class="manage">
+				<table class="list">
+					<tr>
+						<th>ID</th>
+						<th>姓名</th>
+						<th>留言内容</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					{{range .list}}
+					    <tr>
+					        <td class="first w4 c">{{.Id}}</td>
+					        <td class="w1 c">{{.NickName}}</td>
+					        <td>{{.Content}}</td>
+					        {{if eq .Reply ""}}
+					        <td class="w1 c">未回复</td>
+					        {{else}}
+					        <td class="w1 c">已回复</td>
+					        {{end}}
+					        <td class="w1 c">
+					        {{if eq .Reply ""}}
+					        <a href="UpdateManage?id={{.Id}}">回复</a>
+					        {{end}}
+					        <a href="javascript:DelManage({{.Id}})">删除</a>
+					        </td>
+					    </tr>
+					{{end}}
+
+				</table>
+				<div class="pager">
+					<ul class="clearfix">
+                        {{if ne .page 1}}
+                        <li><a href="SelManage?page={{reduce .page 1}}">上一页</a></li>
+                        {{end}}
+						{{range .plist}}
+						<li><a href="SelManage?page={{.}}">{{.}}</a></li>
+						{{end}}
+						{{if ne .page .max_page}}
+						<li><a href="SelManage?page={{add .page 1}}">下一页</a></li>
+						{{end}}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
