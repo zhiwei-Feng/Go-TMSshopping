@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"tmsshopping/dao"
+	"tmsshopping/db"
 	"tmsshopping/domain"
 )
 
@@ -54,4 +55,27 @@ func OrderManagePage(ctx *gin.Context) {
 	attributes["plist"] = plist
 
 	ctx.HTML(http.StatusOK, "order-manage.tmpl", attributes)
+}
+
+func OrderDelete(ctx *gin.Context) {
+	var (
+		idStr = ctx.Query("id")
+		id    int
+		err   error
+	)
+
+	if id, err = strconv.Atoi(idStr); err != nil {
+		ctx.HTML(http.StatusBadRequest, "order_del_err.html", gin.H{})
+		return
+	}
+
+	// todo: 目前按照原项目的逻辑来的，但是此处存在order-detail表中会遗留大量无用数据
+	result := db.DB.Delete(&domain.Order{}, id)
+	if result.Error != nil {
+		ctx.Header("Content-Type", "text/html;charset=utf-8")
+		ctx.HTML(http.StatusInternalServerError, "order_del_err.html", gin.H{})
+		return
+	}
+
+	ctx.HTML(http.StatusOK, "manage-result.tmpl", gin.H{})
 }
